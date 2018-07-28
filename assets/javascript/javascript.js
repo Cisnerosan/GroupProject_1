@@ -1,11 +1,10 @@
 var config = {
-  apiKey: "AIzaSyCNzJvsSZ7iguPl4PhGNcgU75ulM4kli2s",
-  authDomain: "project1-bands.firebaseapp.com",
-  databaseURL: "https://project1-bands.firebaseio.com",
-  projectId: "project1-bands",
-  storageBucket: "project1-bands.appspot.com",
-  messagingSenderId: "1002422839035"
-
+  apiKey: "AIzaSyAPFwkM7er4XfzBRB9CT2wS52IVIG9ARZI",
+  authDomain: "test-91708.firebaseapp.com",
+  databaseURL: "https://test-91708.firebaseio.com",
+  projectId: "test-91708",
+  storageBucket: "test-91708.appspot.com",
+  messagingSenderId: "802365238772"
 };
 firebase.initializeApp(config);
 // Create a variable to reference the database
@@ -101,12 +100,51 @@ function generateTourContent(results){
     }
     myMap();
 }
+
+
+// form validation on submit/enter
+$('#form-control').on('submit', function(event){
+  event.preventDefault();
+
+  var isValidated=validate () 
+    if (isValidated) {
+      //Store the arist and location variables
+  var artist = $('#artist-name').val().trim();
+  
+  console.log(artist);
+  console.log(location);
+
+  //Store the values in firebase  
+  database.ref().push({
+    artist: artist,
+  });
+  //Clear the text field on the form
+  $("#artist-name").val('');
+
+
+  bandsInTownArtist(artist);
+  bandsInTownTour(artist);
+  getTopTracks(artist);
+  youtubeVideo(artist)
+    }
+     
+    else  {alert("Enter an Artist")};
+  
+
+
+});
  //Wrapped our submit buton in a function
 function submitButton(){ 
 //Event handler for user clicking the search button and storing the values
+// form validation on click//
 $('#submit-id').on('click', function(event){
     event.preventDefault();
-    //Store the arist and location variables
+
+    var isValidated=validate () 
+      if (isValidated) {
+
+    
+        //Store the arist and location variables
     var artist = $('#artist-name').val().trim();
     
     console.log(artist);
@@ -124,6 +162,11 @@ $('#submit-id').on('click', function(event){
     bandsInTownTour(artist);
     getTopTracks(artist);
     youtubeVideo(artist)
+      }
+       
+      else  {alert("Enter an Artist")};
+    
+ 
 
 });
 }
@@ -233,6 +276,8 @@ function getTopTracks(artist) {
         $('#spotify').append(frame);
   }
  }
+
+//  Youtube function////
  function youtubeVideo(artist){
     queryURL = "https://www.googleapis.com/youtube/v3/search?q=" + artist + "&part=snippet&key=AIzaSyBXz0xMTnmOyG3IfRcOoH10y1pm4r_qd2E&type=video&videoLicense=youtube&videoEmbeddable=true&videoSyndicated=true&safeSearch=moderate&regionCode=US";
 
@@ -279,6 +324,20 @@ function onYouTubeIframeAPIReady(video) {
       
     });
     console.log(player);
+  }
+}
+
+
+// function for validation
+function validate() {
+
+  var submitSearch= document.getElementById("artist-name").value;
+
+  if (submitSearch) {
+    return true;
+}
+  else {
+    return false;
   }
 
 }
